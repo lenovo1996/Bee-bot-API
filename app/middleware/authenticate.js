@@ -9,7 +9,6 @@ var authenticate = {
         if (isLogIn.result == false) {
             return isLogIn;
         }
-        console.log(3);
 
         return {
             result: true

@@ -9,7 +9,6 @@ var hasAccessToken = {
             };
         }
 
-        console.log(2);
         return {
             result: true
         };

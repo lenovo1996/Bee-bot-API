@@ -17,7 +17,7 @@ var SpaceController = {
     },
 
     async postList(req, res, next) {
-    
+
     },
 
     async putList(req, res, next) {
