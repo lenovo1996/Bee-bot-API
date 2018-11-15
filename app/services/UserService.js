@@ -18,7 +18,6 @@ userService.verify = async function (user) {
 
     // check password with bcrypt
     if (bcrypt.compareSync(user.password, userInfo.password)) {
-
         // generate and update token of user
         var newToken = randomString(60);
         userInfo.accessToken = newToken;

@@ -10,9 +10,10 @@ var AuthController = {
         var result = await UserService.verify(user);
 
         res.send(result);
+        return;
     },
 
-    async register (req, res, next) {
+    async register(req, res, next) {
         var user = {};
         user.name = req.body.name;
         user.email = req.body.email;
@@ -20,6 +21,7 @@ var AuthController = {
 
         var result = await UserService.register(user);
         res.send(result);
+        return;
     }
 };
 

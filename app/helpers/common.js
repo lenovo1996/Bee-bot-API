@@ -16,4 +16,8 @@ common.randomString = function (n) {
     return r;
 };
 
+common.toSnakeCase = function (string) {
+    return string.replace(/\.?([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/, "");
+};
+
 module.exports = common;

@@ -1,22 +1,14 @@
 var Sequelize = require('sequelize'),
     c = require('../config/db.config');
 
-var User = c.config.db.define('User', {
-    name: {
-        type: Sequelize.STRING,
-        field: 'name'
+var UserSpace = c.config.db.define('UserSpace', {
+    userId: {
+        type: Sequelize.INTEGER,
+        field: 'user_id'
     },
-    email: {
-        type: Sequelize.STRING,
-        field: 'email'
-    },
-    password: {
-        type: Sequelize.STRING,
-        field: 'password'
-    },
-    accessToken: {
-        type: Sequelize.STRING,
-        field: 'access_token'
+    spaceId: {
+        type: Sequelize.INTEGER,
+        field: 'space_id'
     },
     createdBy: {
         type: Sequelize.INTEGER,
@@ -37,4 +29,4 @@ var User = c.config.db.define('User', {
     paranoid: true,
 });
 
-module.exports = User;
+module.exports = UserSpace;
