@@ -15,7 +15,7 @@ var middlewareList = [
 // middleware group
 var middleware = async function (req, res, next) {
     for (var middleware of middlewareList) {
-        var handling = await m[middleware].handle(req, res, next);
+        var handling = await m[middleware].handle(req);
         if (handling.result == false) {
             res.send(handling);
             return;

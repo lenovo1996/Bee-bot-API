@@ -1,7 +1,7 @@
 var trimString = {
-    async handle(req, res, next) {
+    async handle(req) {
         Object.keys(req.body).forEach(function (key) {
-            console.log(key);
+            req.body[key] = req.body[key].trim();
         });
 
         return {

@@ -1,7 +1,7 @@
 var {isLoggedIn} = require('../helpers/permission');
 
 var authenticate = {
-    async handle(req, res, next) {
+    async handle(req) {
         var accessToken = req.body.access_token || req.query.access_token;
 
         // check access_token

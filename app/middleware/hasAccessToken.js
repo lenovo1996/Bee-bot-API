@@ -1,5 +1,5 @@
 var hasAccessToken = {
-    async handle(req, res, next) {
+    async handle(req) {
         var accessToken = req.body.access_token || req.query.access_token;
 
         if (!accessToken) {
