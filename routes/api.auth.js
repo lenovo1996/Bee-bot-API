@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
-var { AuthController } = require('../app/controllers');
+let { AuthController } = require('../app/controllers');
 
 router.post('/login', AuthController.login);
 router.post('/register', AuthController.register);

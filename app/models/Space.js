@@ -1,7 +1,7 @@
-var Sequelize = require('sequelize'),
+let Sequelize = require('sequelize'),
     c = require('../config/db.config');
 
-var Space = c.config.db.define('Space', {
+let Space = c.config.db.define('Space', {
     name: {
         type: Sequelize.STRING,
         field: 'name'

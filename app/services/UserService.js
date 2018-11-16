@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
-var {User} = require('../models');
+let {User} = require('../models');
 const {filter, randomString} = require('../helpers/common');
 
-var userService = {};
+let userService = {};
 
 userService.verify = async function (user) {
     // check required email and password
@@ -19,7 +19,7 @@ userService.verify = async function (user) {
     // check password with bcrypt
     if (bcrypt.compareSync(user.password, userInfo.password)) {
         // generate and update token of user
-        var newToken = randomString(60);
+        let newToken = randomString(60);
         userInfo.accessToken = newToken;
         await User.update({accessToken: newToken}, {where: {email: user.email}});
 
@@ -64,7 +64,7 @@ userService.register = async function (user) {
 
     // generate and update token of user
     user.accessToken = randomString(60);
-    var salt = bcrypt.genSaltSync(10);
+    let salt = bcrypt.genSaltSync(10);
     user.password = bcrypt.hashSync(user.password, salt);
     await User.create(user);
     return {

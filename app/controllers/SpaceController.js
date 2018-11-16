@@ -6,13 +6,13 @@ const {
     isLoggedIn
 } = require('../helpers/permission');
 
-var SpaceService = require('../services/SpaceService');
+let SpaceService = require('../services/SpaceService');
 
-var SpaceController = {
+let SpaceController = {
 
-    async getList(req, res, next) {
-        var accessToken = req.body.access_token || req.query.access_token;
-        var list = await SpaceService.getList(accessToken);
+    async getList(req, res) {
+        let accessToken = req.query.access_token;
+        let list = await SpaceService.getList(accessToken);
         res.send(list);
     },
 
@@ -27,6 +27,7 @@ var SpaceController = {
     async deleteList(req, res, next) {
         // code
     }
+
 };
 
 module.exports = SpaceController;

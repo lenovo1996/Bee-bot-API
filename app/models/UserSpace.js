@@ -1,7 +1,7 @@
-var Sequelize = require('sequelize'),
+let Sequelize = require('sequelize'),
     c = require('../config/db.config');
 
-var UserSpace = c.config.db.define('UserSpace', {
+let UserSpace = c.config.db.define('UserSpace', {
     userId: {
         type: Sequelize.INTEGER,
         field: 'user_id'

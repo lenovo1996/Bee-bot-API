@@ -1,7 +1,7 @@
-var Sequelize = require('sequelize'),
+let Sequelize = require('sequelize'),
     c = require('../config/db.config');
 
-var User = c.config.db.define('User', {
+let User = c.config.db.define('User', {
     name: {
         type: Sequelize.STRING,
         field: 'name'

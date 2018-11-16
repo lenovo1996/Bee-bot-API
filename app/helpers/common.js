@@ -1,7 +1,7 @@
-var common = {};
+let common = {};
 
 common.filter = function (haystack, needed) {
-    var output = {};
+    let output = {};
     for (key of needed) {
         if (haystack[key]) {
             output[key] = haystack[key];
@@ -11,7 +11,7 @@ common.filter = function (haystack, needed) {
 };
 
 common.randomString = function (n) {
-    var r = "";
+    let r = "";
     while (n--) r += String.fromCharCode((r = Math.random() * 62 | 0, r += r > 9 ? (r < 36 ? 55 : 61) : 48));
     return r;
 };

@@ -3,9 +3,9 @@ const {
     Space,
     UserSpace
 } = require('../models');
-var Sequelize = require('sequelize');
+let Sequelize = require('sequelize');
 
-var permissions = {};
+let permissions = {};
 
 permissions.isSuperAdmin = function (accessToken, spaceId) {
 
@@ -24,7 +24,7 @@ permissions.isMember = function (accessToken, spaceId) {
 };
 
 permissions.isLoggedIn = async function (accessToken) {
-    var user = await permissions.getUserByToken(accessToken);
+    let user = await permissions.getUserByToken(accessToken);
 
     if (!user) {
         return {
