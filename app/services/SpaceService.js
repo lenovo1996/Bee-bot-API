@@ -3,7 +3,7 @@ const p = require('../helpers/permission');
 
 let SpaceService = {
 
-    async getList (accessToken) {
+    async getList(accessToken) {
         let user = await p.getUserByToken(accessToken);
 
         let userSpace = await UserSpace.findAll({
@@ -21,6 +21,23 @@ let SpaceService = {
             attributes: ['id', 'name']
         });
     },
+
+    async createSpace(data) {
+        let space = await Space.findOne({
+            where: data
+        });
+
+        console.log(space);
+
+        if (space) {
+            return {
+                result: false,
+                msg: 'Space already exists.'
+            }
+        }
+
+        return await Space.create(data);
+    }
 
 };
 

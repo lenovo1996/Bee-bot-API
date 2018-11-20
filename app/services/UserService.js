@@ -1,10 +1,13 @@
-const bcrypt = require('bcrypt');
-let {User} = require('../models');
-const {filter, randomString} = require('../helpers/common');
+const {User} = require('../models'),
+    bcrypt = require('bcrypt'),
+    {filter, randomString} = require('../helpers/common'),
+    SpaceService = require('./SpaceService'),
+    UserSpaceService = require('./UserSpaceService');
+
 
 let userService = {};
 
-userService.verify = async function (user) {
+userService.attemp = async function (user) {
     // check required email and password
     if (!user.email || !user.password) {
         return {
@@ -66,7 +69,19 @@ userService.register = async function (user) {
     user.accessToken = randomString(60);
     let salt = bcrypt.genSaltSync(10);
     user.password = bcrypt.hashSync(user.password, salt);
-    await User.create(user);
+    let newUser = await User.create(user);
+
+    let newSpace = await SpaceService.createSpace({
+        createdBy: newUser.id,
+        name: 'Default Space'
+    });
+
+    await UserSpaceService.createUserSpace({
+        createdBy: newUser.id,
+        userId: newUser.id,
+        spaceId: newSpace.id
+    });
+
     return {
         result: true,
         msg: 'Register success!',
