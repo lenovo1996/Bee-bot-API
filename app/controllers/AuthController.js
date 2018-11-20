@@ -7,7 +7,7 @@ let AuthController = {
         user.password = req.body.password;
 
         // check email and password match
-        let result = await UserService.verify(user);
+        let result = await UserService.attemp(user);
 
         res.send(result);
         return;

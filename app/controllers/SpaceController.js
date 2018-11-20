@@ -3,10 +3,12 @@ const {
     isAdmin,
     isModer,
     isMember,
-    isLoggedIn
+    isLoggedIn,
+    getUserByToken
 } = require('../helpers/permission');
 
-let SpaceService = require('../services/SpaceService');
+let SpaceService = require('../services/SpaceService'),
+    UserSpaceService = require('../services/UserSpaceService');
 
 let SpaceController = {
 
@@ -16,11 +18,42 @@ let SpaceController = {
         res.send(list);
     },
 
-    async postList(req, res, next) {
+    async post(req, res, next) {
+        let accessToken = req.body.access_token;
 
+        if (!req.body.name) {
+            res.send({
+                result: false,
+                msg: `field name is required.`
+            });
+        }
+
+        let user = await getUserByToken(accessToken);
+
+        let data = {
+            name: req.body.name,
+            createdBy: user.id
+        };
+
+        let newSpace = await SpaceService.createSpace(data);
+
+        if (newSpace.result === false) {
+            res.send(newSpace);
+        }
+
+        await UserSpaceService.createUserSpace({
+            createdBy: user.id,
+            userId: user.id,
+            spaceId: newSpace.id
+        });
+
+        res.send({
+            result: true,
+            data: newSpace
+        });
     },
 
-    async putList(req, res, next) {
+    async put(req, res, next) {
         // code
     },
 
