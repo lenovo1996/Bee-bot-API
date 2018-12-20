@@ -57,7 +57,7 @@ let SpaceController = {
         // code
     },
 
-    async deleteList(req, res, next) {
+    async delete(req, res, next) {
         // code
     }
 

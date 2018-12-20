@@ -10,7 +10,6 @@ let AuthController = {
         let result = await UserService.attemp(user);
 
         res.send(result);
-        return;
     },
 
     async register(req, res, next) {
@@ -21,7 +20,6 @@ let AuthController = {
 
         let result = await UserService.register(user);
         res.send(result);
-        return;
     }
 };
 
