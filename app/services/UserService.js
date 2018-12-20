@@ -20,7 +20,7 @@ userService.attemp = async function (user) {
     const userInfo = await User.findOne({where: {email: user.email}, raw: true});
 
     // check password with bcrypt
-    if (bcrypt.compareSync(user.password, userInfo.password)) {
+    if (userInfo && bcrypt.compareSync(user.password, userInfo.password)) {
         // generate and update token of user
         let newToken = randomString(60);
         userInfo.accessToken = newToken;

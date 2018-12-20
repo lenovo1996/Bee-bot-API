@@ -8,6 +8,6 @@ let trimString = {
             result: true
         };
     }
-}
+};
 
 module.exports = trimString;

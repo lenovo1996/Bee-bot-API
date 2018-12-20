@@ -1,7 +1,12 @@
 let Sequelize = require('sequelize'),
-    c = require('../config/db.config');
+    c = require('../config/db.config'),
+    BaseAttibutes = require('../helpers/BaseAttibutes');
 
 let UserSpace = c.config.db.define('UserSpace', {
+    // created, updated, deleted column.
+    ...BaseAttibutes,
+
+    // list columns in table
     userId: {
         type: Sequelize.INTEGER,
         field: 'user_id'
@@ -9,19 +14,7 @@ let UserSpace = c.config.db.define('UserSpace', {
     spaceId: {
         type: Sequelize.INTEGER,
         field: 'space_id'
-    },
-    createdBy: {
-        type: Sequelize.INTEGER,
-        field: 'created_by'
-    },
-    updatedBy: {
-        type: Sequelize.INTEGER,
-        field: 'updated_by'
-    },
-    deletedBy: {
-        type: Sequelize.INTEGER,
-        field: 'deleted_by'
-    },
+    }
 }, {
     timestamps: true,
     underscored: true,
