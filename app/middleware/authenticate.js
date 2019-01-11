@@ -1,4 +1,4 @@
-let {isLoggedIn} = require('../helpers/permission');
+let {isLoggedIn} = require('../modules/permission');
 
 let authenticate = {
   async handle(req) {

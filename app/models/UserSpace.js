@@ -14,6 +14,10 @@ let UserSpace = c.config.db.define('UserSpace', {
   spaceId: {
     type: Sequelize.INTEGER,
     field: 'space_id'
+  },
+  role: {
+    type: Sequelize.INTEGER,
+    field: 'role'
   }
 }, {
   timestamps: true,

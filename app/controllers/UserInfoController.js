@@ -1,20 +1,26 @@
 const {
   getUserByToken
-} = require('../helpers/permission');
+} = require('../modules/permission');
 
-const {userInfo} = require('../modules/UserModule');
+const UserModule = require('../modules/UserModule');
 
 const SpaceService = require('../services/SpaceService');
 
-let UserService = require('../services/UserService');
-
 let UserInfoController = {
+  /**
+   * function get user information (include space list)
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
   async get(req, res) {
     let accessToken = req.query.access_token;
-    let user = userInfo(await getUserByToken(accessToken));
+
+    // get user information
+    let user = UserModule.userInfo(await getUserByToken(accessToken));
 
     // get space list
-    user.spaces = await SpaceService.getList(accessToken);
+    user.spaces = await SpaceService.getList(accessToken, user);
 
     res.send(user);
   }

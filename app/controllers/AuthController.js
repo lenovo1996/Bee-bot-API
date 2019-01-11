@@ -1,7 +1,13 @@
 let UserService = require('../services/UserService');
 
 let AuthController = {
-  async login(req, res, next) {
+  /**
+   * login function
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  async login(req, res) {
     let user = {};
     user.email = req.body.email;
     user.password = req.body.password;
@@ -12,12 +18,20 @@ let AuthController = {
     res.send(result);
   },
 
-  async register(req, res, next) {
+  /**
+   * register function
+   * @param req
+   * @param res
+   * @param next
+   * @returns {Promise<void>}
+   */
+  async register(req, res) {
     let user = {};
     user.name = req.body.name;
     user.email = req.body.email;
     user.password = req.body.password;
 
+    // call function register in UserService
     let result = await UserService.register(user);
     res.send(result);
   }
