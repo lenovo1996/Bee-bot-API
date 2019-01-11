@@ -10,6 +10,8 @@ let authenticate = {
       return isLogIn;
     }
 
+    req.user = isLogIn.data;
+
     return {
       result: true
     };

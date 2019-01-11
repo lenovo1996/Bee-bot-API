@@ -71,7 +71,7 @@ let UserService = {
 
     // check email in database
     // find user with email
-    const userInfo = await User.findOne({where: {email: user.email}, raw: true});
+    const userInfo = await UserService.getUserByEmail(user.email);
     if (userInfo) {
       return {
         result: false,
@@ -101,6 +101,15 @@ let UserService = {
       msg: 'Register success!',
       user: newUser
     };
+  },
+
+  /**
+   * function get user by email
+   * @param email
+   * @returns {Promise<void>}
+   */
+  async getUserByEmail(email) {
+    return await User.findOne({where: {email: email}});
   }
 };
 

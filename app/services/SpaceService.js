@@ -90,6 +90,11 @@ let SpaceService = {
     });
   },
 
+  /**
+   * function init options (relationship) for space
+   * @param userId
+   * @returns {*[]}
+   */
   includeOptions(userId) {
     return [{
       model: UserSpace,
@@ -99,7 +104,7 @@ let SpaceService = {
     }, {
       model: UserSpace,
       as: 'Members',
-      attributes: ['id', 'userId', 'spaceId'],
+      attributes: ['id', 'userId', 'spaceId', 'role'],
       include: [{
         model: User,
         as: 'user',
