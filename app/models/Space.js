@@ -21,5 +21,6 @@ let Space = c.config.db.define('Space', {
 
 // set relation for get Member role in UserSpace
 Space.hasOne(UserSpace, {as: 'Member', foreignKey: 'space_id', targetKey: 'id'});
+Space.hasMany(UserSpace, {as: 'Members', foreignKey: 'space_id', targetKey: 'id'});
 
 module.exports = Space;

@@ -68,8 +68,7 @@ let permissions = {
     if (!space) {
       return false;
     }
-    console.log(space);
-    return parseInt(space['Member.role']);
+    return parseInt(space.Member.role);
   },
 
   /**

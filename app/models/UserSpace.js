@@ -2,6 +2,8 @@ let Sequelize = require('sequelize'),
   c = require('../config/db.config'),
   BaseAttibutes = require('../helpers/BaseAttibutes');
 
+const User = require('./User');
+
 let UserSpace = c.config.db.define('UserSpace', {
   // created, updated, deleted column.
   ...BaseAttibutes,
@@ -24,5 +26,8 @@ let UserSpace = c.config.db.define('UserSpace', {
   freezeTableName: true,
   paranoid: true,
 });
+
+// relationship to table User
+UserSpace.belongsTo(User, {as: 'user'});
 
 module.exports = UserSpace;

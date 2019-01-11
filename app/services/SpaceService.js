@@ -1,5 +1,6 @@
-const {Space, UserSpace} = require('../models');
+const {Space, UserSpace, User} = require('../models');
 const UserSpaceService = require('./UserSpaceService');
+const Sequelize = require('sequelize');
 
 let SpaceService = {
   /**
@@ -25,15 +26,8 @@ let SpaceService = {
     // get information of space with list spaceId
     return await Space.findAll({
       where: {id: spaceIdList},
-      include: {
-        required: true,
-        model: UserSpace,
-        as: 'Member',
-        attributes: ['role'],
-        where: {userId: user.id}
-      },
       attributes: ['id', 'name', 'createdBy', 'updatedBy', 'createdAt', 'updatedAt'],
-      raw: true
+      include: SpaceService.includeOptions(user.id)
     });
   },
 
@@ -92,15 +86,26 @@ let SpaceService = {
     return await Space.findOne({
       where: {id: spaceId},
       attributes: ['id', 'name', 'createdBy', 'updatedBy', 'createdAt', 'updatedAt'],
-      include: {
-        required: true,
-        model: UserSpace,
-        as: 'Member',
-        attributes: ['role'],
-        where: {userId: userId}
-      },
-      raw: true
+      include: SpaceService.includeOptions(userId)
     });
+  },
+
+  includeOptions(userId) {
+    return [{
+      model: UserSpace,
+      as: 'Member',
+      attributes: ['role'],
+      where: {userId: userId}
+    }, {
+      model: UserSpace,
+      as: 'Members',
+      attributes: ['id', 'userId', 'spaceId'],
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['id', 'name', 'email'],
+      }]
+    }]
   }
 
 };
