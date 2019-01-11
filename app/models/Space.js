@@ -1,28 +1,26 @@
 let Sequelize = require('sequelize'),
-    c = require('../config/db.config');
+  c = require('../config/db.config'),
+  BaseAttibutes = require('../helpers/BaseAttibutes');
+
+const UserSpace = require('./UserSpace');
 
 let Space = c.config.db.define('Space', {
-    name: {
-        type: Sequelize.STRING,
-        field: 'name'
-    },
-    createdBy: {
-        type: Sequelize.INTEGER,
-        field: 'created_by'
-    },
-    updatedBy: {
-        type: Sequelize.INTEGER,
-        field: 'updated_by'
-    },
-    deletedBy: {
-        type: Sequelize.INTEGER,
-        field: 'deleted_by'
-    },
+  // created, updated, deleted column.
+  ...BaseAttibutes,
+
+  // list columns in table
+  name: {
+    type: Sequelize.STRING,
+    field: 'name'
+  }
 }, {
-    timestamps: true,
-    underscored: true,
-    freezeTableName: true,
-    paranoid: true,
+  timestamps: true,
+  freezeTableName: true,
+  paranoid: true,
 });
+
+// set relation for get Member role in UserSpace
+Space.hasOne(UserSpace, {as: 'Member', foreignKey: 'space_id', targetKey: 'id'});
+Space.hasMany(UserSpace, {as: 'Members', foreignKey: 'space_id', targetKey: 'id'});
 
 module.exports = Space;
