@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 let {toSnakeCase} = require('../app/helpers/common');
+let m = require('../app/middleware');
 
 const {FacebookController} = require('../app/controllers');
 
