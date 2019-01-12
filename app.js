@@ -27,3 +27,5 @@ fs.readdirSync('./routes').filter(file => {
   let routeName = file.slice(0, file.length - 3).replace(/\./g, '/');
   app.use(`/${routeName}`, require(routePath));
 });
+
+module.exports = app;
