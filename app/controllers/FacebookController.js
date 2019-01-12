@@ -17,8 +17,8 @@ let FacebookController = {
    * @returns {Promise<void>}
    */
   async getAuth(req, res) {
-    var redirectUri = `${facebookConf.rootUrl + facebookConf.redirectUri}`;
-    var params = {
+    let redirectUri = `${facebookConf.rootUrl + facebookConf.redirectUri}`;
+    let params = {
       'redirect_uri': redirectUri,
       'scope': 'manage_pages,publish_pages'
     };
@@ -37,8 +37,8 @@ let FacebookController = {
       return false;
     }
     if (req.query.code) {
-      var loginCode = req.query.code;
-      var redirectUri = facebookConf.redirectUri;
+      let loginCode = req.query.code;
+      let redirectUri = facebookConf.redirectUri;
 
       oauth2.getOAuthAccessToken(
         loginCode,
