@@ -51,7 +51,7 @@ app.get("/facebook/callback", function (req, res) {
   }
   if (req.query.code) {
     var loginCode = req.query.code;
-    var redirect_uri = "https://facebook-tunnel.tk/facebook/callback";
+    var redirect_uri = "/facebook/callback";
     // For eg. "/facebook/callback"
     oauth2.getOAuthAccessToken(loginCode,
       {
