@@ -28,4 +28,48 @@ fs.readdirSync('./routes').filter(file => {
   app.use(`/${routeName}`, require(routePath));
 });
 
+
+var request = require('request');
+var OAuth2 = require('oauth').OAuth2;
+var oauth2 = new OAuth2("380906782469469",
+  "657e49b5f03c04cdf3dfeeae1362c39e",
+  "", "https://www.facebook.com/dialog/oauth",
+  "https://graph.facebook.com/oauth/access_token",
+  null);
+
+app.get('/facebook/auth', function (req, res) {
+  var redirect_uri = "https://facebook-tunnel.tk/facebook/callback";
+  var params = {'redirect_uri': redirect_uri, 'scope': 'manage_pages,publish_pages'};
+  res.send(oauth2.getAuthorizeUrl(params));
+});
+
+app.get("/facebook/callback", function (req, res) {
+  if (req.error_reason) {
+    res.send('111111111111111');
+    return;
+  }
+  if (req.query.code) {
+    var loginCode = req.query.code;
+    var redirect_uri = "/facebook/callback";
+    oauth2.getOAuthAccessToken(loginCode,
+      {
+        grant_type: 'authorization_code',
+        redirect_uri: redirect_uri
+      },
+      function (err, accessToken, refreshToken, params) {
+        if (err) {
+          res.send('2222222222222');
+          return;
+        }
+
+        console.log(params);
+        res.send(accessToken);
+        return;
+      }
+    );
+  } else {
+    res.send('333333333333333');
+  }
+});
+
 module.exports = app;
