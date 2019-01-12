@@ -39,12 +39,37 @@ var oauth2 = new OAuth2("293520914705715",
   null);
 
 app.get('/facebook/auth',function (req, res) {
-  var redirect_uri = "https://facebook-tunnel.tk/callback";
+  var redirect_uri = "https://facebook-tunnel.tk/facebook/callback";
   // For eg. "http://localhost:3000/facebook/callback"
   var params = {'redirect_uri': redirect_uri, 'scope':'user_about_me,publish_actions'};
   res.redirect(oauth2.getAuthorizeUrl(params));
 });
 
+app.get("/facebook/callback", function (req, res) {
+  if (req.error_reason) {
+    res.send(req.error_reason);
+  }
+  if (req.query.code) {
+    var loginCode = req.query.code;
+    var redirect_uri = '/facebook/callback'; // Path_To_Be_Redirected_to_After_Verification
+    // For eg. "/facebook/callback"
+    oauth2.getOAuthAccessToken(loginCode,
+      { grant_type: 'authorization_code',
+        redirect_uri: redirect_uri},
+      function(err, accessToken, refreshToken, params){
+        if (err) {
+          console.error(err);
+          res.send(err);
+        }
+        var access_token = accessToken;
+        var expires = params.expires;
+        req.session.access_token = access_token;
+        req.session.expires = expires;
 
+        console.log(access_token, expires);
+      }
+    );
+  }
+});
 
 module.exports = app;
