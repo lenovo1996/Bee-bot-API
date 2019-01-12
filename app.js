@@ -28,4 +28,23 @@ fs.readdirSync('./routes').filter(file => {
   app.use(`/${routeName}`, require(routePath));
 });
 
+
+// facebook test
+var request = require('request');
+var OAuth2 = require('oauth2').OAuth2;
+var oauth2 = new OAuth2("293520914705715",
+  "d20fbf5499786aea641fee27339d1f1d",
+  "", "https://www.facebook.com/dialog/oauth",
+  "https://graph.facebook.com/oauth/access_token",
+  null);
+
+app.get('/facebook/auth',function (req, res) {
+  var redirect_uri = "https://facebook-tunnel.tk/callback";
+  // For eg. "http://localhost:3000/facebook/callback"
+  var params = {'redirect_uri': redirect_uri, 'scope':'user_about_me,publish_actions'};
+  res.redirect(oauth2.getAuthorizeUrl(params));
+});
+
+
+
 module.exports = app;
