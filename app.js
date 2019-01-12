@@ -31,9 +31,9 @@ fs.readdirSync('./routes').filter(file => {
 
 // facebook test
 var request = require('request');
-var OAuth2 = require('oauth2').OAuth2;
-var oauth2 = new OAuth2("293520914705715",
-  "d20fbf5499786aea641fee27339d1f1d",
+var OAuth2 = require('oauth').OAuth2;
+var oauth2 = new OAuth2("380906782469469",
+  "657e49b5f03c04cdf3dfeeae1362c39e",
   "", "https://www.facebook.com/dialog/oauth",
   "https://graph.facebook.com/oauth/access_token",
   null);
