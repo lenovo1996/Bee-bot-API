@@ -62,13 +62,10 @@ app.get("/facebook/callback", function (req, res) {
         if (err) {
           console.error(err);
           res.send(err);
+          return;
         }
-        var access_token = accessToken;
-        var expires = params.expires;
-        req.session.access_token = access_token;
-        req.session.expires = expires;
-
-        console.log(access_token, expires);
+        res.send(accessToken + ';' + params.expires);
+        return;
       }
     );
   } else {
