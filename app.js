@@ -38,10 +38,10 @@ var oauth2 = new OAuth2("380906782469469",
   "https://graph.facebook.com/oauth/access_token",
   null);
 
-app.get('/facebook/auth',function (req, res) {
+app.get('/facebook/auth', function (req, res) {
   var redirect_uri = "https://facebook-tunnel.tk/facebook/callback";
   // For eg. "http://localhost:3000/facebook/callback"
-  var params = {'redirect_uri': redirect_uri, 'scope':'user_about_me,publish_actions'};
+  var params = {'redirect_uri': redirect_uri, 'scope': 'manage_pages,publish_pages'};
   res.redirect(oauth2.getAuthorizeUrl(params));
 });
 
@@ -51,12 +51,14 @@ app.get("/facebook/callback", function (req, res) {
   }
   if (req.query.code) {
     var loginCode = req.query.code;
-    var redirect_uri = '/facebook/callback'; // Path_To_Be_Redirected_to_After_Verification
+    var redirect_uri = "https://facebook-tunnel.tk/facebook/callback";
     // For eg. "/facebook/callback"
     oauth2.getOAuthAccessToken(loginCode,
-      { grant_type: 'authorization_code',
-        redirect_uri: redirect_uri},
-      function(err, accessToken, refreshToken, params){
+      {
+        grant_type: 'authorization_code',
+        redirect_uri: redirect_uri
+      },
+      function (err, accessToken, refreshToken, params) {
         if (err) {
           console.error(err);
           res.send(err);
@@ -69,6 +71,8 @@ app.get("/facebook/callback", function (req, res) {
         console.log(access_token, expires);
       }
     );
+  } else {
+    console.log(1111);
   }
 });
 
