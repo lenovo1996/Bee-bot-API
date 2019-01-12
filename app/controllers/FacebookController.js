@@ -71,11 +71,11 @@ let FacebookController = {
             {
               limit: 500,
               access_token: accessToken
-            }, function (res) {
+            }, function (response) {
               res.send({
                 result: true,
                 accessToken: accessToken,
-                data: res
+                data: response
               });
             });
           return true;
