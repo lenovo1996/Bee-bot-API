@@ -5,25 +5,6 @@ let m = require('../app/middleware');
 
 const {FacebookController} = require('../app/controllers');
 
-
-let middlewareList = [
-  'trimString',
-  'hasAccessToken',
-  'authenticate',
-];
-
-// middleware group
-let middleware = async function (req, res, next) {
-  for (let middleware of middlewareList) {
-    let handling = await m[middleware].handle(req);
-    if (handling.result === false) {
-      res.send(handling);
-      return;
-    }
-  }
-  next();
-};
-
 Object.keys(FacebookController).forEach(funcName => {
   let arr = toSnakeCase(funcName).split('_');
   let method = arr[0];
@@ -31,7 +12,7 @@ Object.keys(FacebookController).forEach(funcName => {
   if (['get', 'post', 'put', 'delete'].indexOf(method) === -1) {
     return false;
   }
-  router[method]('/' + routeLink, [middleware, FacebookController[funcName]]);
+  router[method]('/' + routeLink, [FacebookController[funcName]]);
 });
 
 module.exports = router;
