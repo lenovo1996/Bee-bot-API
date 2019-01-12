@@ -38,7 +38,7 @@ let FacebookController = {
     }
     if (req.query.code) {
       let loginCode = req.query.code;
-      let redirectUri = facebookConf.redirectUri;
+      let redirectUri = `${facebookConf.rootUrl + facebookConf.redirectUri}`;
 
       oauth2.getOAuthAccessToken(
         loginCode,
@@ -48,17 +48,16 @@ let FacebookController = {
         },
         function (err, accessToken, refreshToken, params) {
           if (err) {
-            console.error(err);
             res.send(err);
-            return;
+            return false;
           }
-          console.log(params);
           res.send(accessToken);
           return true;
         }
       );
     } else {
       res.send(req.query);
+      return false;
     }
   }
 };
