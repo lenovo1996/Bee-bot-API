@@ -7,28 +7,30 @@ const {
   getUserByToken
 } = require('../modules/permission');
 
-let SpaceService = require('../services/SpaceService'),
-  UserSpaceService = require('../services/UserSpaceService');
+let SpaceService = require('../services/SpaceService');
+let UserService = require('../services/UserService');
+let UserSpaceService = require('../services/UserSpaceService');
 
 let SpaceController = {
   /**
    * function get list space belongs user
    * @param req
    * @param res
-   * @returns {Promise<void>}
+   * @returns {Promise<boolean>}
    */
   async getList(req, res) {
     let accessToken = req.query.access_token;
     let user = await getUserByToken(accessToken);
     let list = await SpaceService.getList(accessToken, user);
     res.send(list);
+    return true;
   },
 
   /**
    * function create new space
    * @param req
    * @param res
-   * @returns {Promise<void>}
+   * @returns {Promise<boolean>}
    */
   async post(req, res) {
     let accessToken = req.body.access_token;
@@ -39,6 +41,7 @@ let SpaceController = {
         result: false,
         msg: `field name is required.`
       });
+      return false;
     }
 
     // get info user
@@ -56,6 +59,7 @@ let SpaceController = {
     if (newSpace.result) {
       // return error message: space already exist
       res.send(newSpace);
+      return false;
     }
 
     res.send({
@@ -81,6 +85,7 @@ let SpaceController = {
         result: false,
         msg: `Missing parameters. Please check again!`
       });
+      return false;
     }
 
     if (!await isSuperAdmin(accessToken, spaceId)) {
@@ -119,9 +124,122 @@ let SpaceController = {
     }
 
     // code
+    res.send({
+      result: false,
+      msg: `Comming soon`
+    });
+  },
 
+  /**
+   * function add member to space
+   * @param req
+   * @param res
+   * @returns {Promise<boolean>}
+   */
+  async postMember(req, res) {
+    let accessToken = req.body.access_token;
+    let userEmail = req.body.email;
+    let spaceId = req.body.space_id;
+
+    // check member email and space id
+    if (!userEmail || !spaceId) {
+      res.send({
+        result: false,
+        msg: `Missing parameters. Please check again!`
+      });
+      return false;
+    }
+
+    // check permission
+    if (!await isSuperAdmin(accessToken, spaceId)) {
+      res.send({
+        result: false,
+        msg: `You dont have permission in this space!`
+      });
+      return false;
+    }
+
+    // check user exist
+    let user = await UserService.getUserByEmail(userEmail);
+    if (!user) {
+      res.send({
+        result: false,
+        msg: `Member do not exist.`
+      });
+      return false;
+    }
+
+    // check user already in space
+    let userSpace = await UserSpaceService.getUserSpace(user.id, spaceId);
+    if (userSpace) {
+      res.send({
+        result: false,
+        msg: `Member already in space.`
+      });
+      return false;
+    }
+
+    // add user to space
+    await UserSpaceService.createUserSpace(user.id, spaceId, 1);
+    res.send({
+      result: true,
+      msg: `Add member ${userEmail} to space success!`
+    });
+    return true;
+  },
+
+  async deleteMember(req, res) {
+
+    let userData = req.user;
+
+    let accessToken = req.body.access_token;
+    let userId = req.body.user_id;
+    let spaceId = req.body.space_id;
+
+    if (userData.id == userId) {
+      res.send({
+        result: false,
+        msg: `You can not delete yourself!`
+      });
+      return false;
+    }
+
+    // check member email and space id
+    if (!userId || !spaceId) {
+      res.send({
+        result: false,
+        msg: `Missing parameters. Please check again!`
+      });
+      return false;
+    }
+
+    // check permission
+    if (!await isSuperAdmin(accessToken, spaceId)) {
+      res.send({
+        result: false,
+        msg: `You dont have permission in this space!`
+      });
+      return false;
+    }
+
+    // check user already in space
+    let userSpace = await UserSpaceService.getUserSpace(userId, spaceId);
+    if (!userSpace) {
+      res.send({
+        result: false,
+        msg: `Member not in space.`
+      });
+      return false;
+    }
+
+    // remove user in space
+    await userSpace.destroy();
+    res.send({
+      result: true,
+      msg: `Remove success!`
+    });
+    return true;
   }
-
 };
 
 module.exports = SpaceController;

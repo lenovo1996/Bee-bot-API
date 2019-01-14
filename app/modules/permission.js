@@ -87,7 +87,8 @@ let permissions = {
     }
 
     return {
-      result: true
+      result: true,
+      data: user
     }
   },
 
