@@ -14,10 +14,10 @@ let UserService = {
   async attemp(user) {
     // check required email and password
     if (!user.email || !user.password) {
-      return {
+      return [{
         result: false,
         msg: 'Please enter email or password.'
-      };
+      }, 401];
     }
 
     // find user with email
@@ -35,17 +35,17 @@ let UserService = {
       // get space list
       userInfo.spaces = await SpaceService.getList(newToken, userInfo);
 
-      return {
+      return [{
         result: true,
         msg: 'Logged in success!',
         user: userInfo
-      };
+      }, 200];
     }
 
-    return {
+    return [{
       result: false,
       msg: 'Username or password is wrong.'
-    };
+    }, 401];
   },
 
   /**
@@ -69,6 +69,13 @@ let UserService = {
       };
     }
 
+    if (user.password !== user.repassword) {
+      return {
+        result: false,
+        msg: 'Password not match'
+      };
+    }
+
     // check email in database
     // find user with email
     const userInfo = await UserService.getUserByEmail(user.email);
@@ -85,16 +92,10 @@ let UserService = {
     user.password = bcrypt.hashSync(user.password, salt);
     let newUser = await User.create(user);
 
-    let newSpace = await SpaceService.createSpace({
-      createdBy: newUser.id,
-      updatedBy: newUser.id,
-      name: 'Default Space'
-    }, newUser.id);
-
     newUser = UserModule.userInfo(newUser);
 
     // get space list
-    newUser.spaces = [newSpace];
+    newUser.spaces = [];
 
     return {
       result: true,

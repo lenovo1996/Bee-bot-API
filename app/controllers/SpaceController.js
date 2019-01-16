@@ -19,7 +19,7 @@ let SpaceController = {
    * @returns {Promise<boolean>}
    */
   async getList(req, res) {
-    let accessToken = req.query.access_token;
+    let accessToken = req.access_token;
     let user = await getUserByToken(accessToken);
     let list = await SpaceService.getList(accessToken, user);
     res.send(list);
@@ -33,7 +33,7 @@ let SpaceController = {
    * @returns {Promise<boolean>}
    */
   async post(req, res) {
-    let accessToken = req.body.access_token;
+    let accessToken = req.access_token;
 
     // check parameter space name
     if (!req.body.name) {
@@ -75,7 +75,7 @@ let SpaceController = {
    * @returns {Promise<boolean>}
    */
   async put(req, res) {
-    let accessToken = req.body.access_token;
+    let accessToken = req.access_token;
     let newName = req.body.new_name;
     let spaceId = req.body.id;
 
@@ -111,7 +111,7 @@ let SpaceController = {
    * @returns {Promise<boolean>}
    */
   async delete(req, res) {
-    let accessToken = req.body.access_token;
+    let accessToken = req.access_token;
     let spaceId = req.body.id;
 
     // check permission
@@ -137,7 +137,7 @@ let SpaceController = {
    * @returns {Promise<boolean>}
    */
   async postMember(req, res) {
-    let accessToken = req.body.access_token;
+    let accessToken = req.access_token;
     let userEmail = req.body.email;
     let spaceId = req.body.space_id;
 
@@ -189,10 +189,8 @@ let SpaceController = {
   },
 
   async deleteMember(req, res) {
-
     let userData = req.user;
-
-    let accessToken = req.body.access_token;
+    let accessToken = req.access_token;
     let userId = req.body.user_id;
     let spaceId = req.body.space_id;
 
@@ -239,6 +237,64 @@ let SpaceController = {
       msg: `Remove success!`
     });
     return true;
+  },
+
+  /**
+   * function set role for member
+   * @param req
+   * @param res
+   * @returns {Promise<boolean>}
+   */
+  async postPermission(req, res) {
+    let userData = req.user;
+    let accessToken = req.access_token;
+    let userId = req.body.user_id;
+    let spaceId = req.body.space_id;
+    let permission = req.body.permission;
+
+    // check member email and space id
+    if (!userId || !spaceId) {
+      res.send({
+        result: false,
+        msg: `Missing parameters. Please check again!`
+      });
+      return false;
+    }
+
+    if (userData.id == userId) {
+      res.send({
+        result: false,
+        msg: `You can not set permission of yourself!`
+      });
+      return false;
+    }
+
+    // check permission
+    if (!await isSuperAdmin(accessToken, spaceId)) {
+      res.send({
+        result: false,
+        msg: `You dont have permission in this space!`
+      });
+      return false;
+    }
+
+    // check user already in space
+    let userSpace = await UserSpaceService.getUserSpace(userId, spaceId);
+    if (!userSpace) {
+      res.send({
+        result: false,
+        msg: `Member not in space.`
+      });
+      return false;
+    }
+
+    userSpace.set('role', permission);
+    await userSpace.save();
+    res.send({
+      result: true,
+      msg: `Set permission success`
+    });
+    return false;
   }
 };
 

@@ -1,6 +1,22 @@
 let hasAccessToken = {
   async handle(req) {
-    let accessToken = req.body.access_token || req.query.access_token;
+    // check header authorization
+    let bearerToken = null;
+    if (req.headers.authorization) {
+      bearerToken = req.headers.authorization.split(' ');
+
+      if (bearerToken[0] !== 'Bearer') {
+        return {
+          result: false,
+          msg: 'Wrong token type'
+        };
+      }
+    } else {
+      bearerToken = ''.split(' ');
+    }
+
+    let accessToken = bearerToken[1] || req.body.access_token || req.query.access_token;
+
     if (!accessToken) {
       return {
         result: false,
@@ -10,8 +26,7 @@ let hasAccessToken = {
 
     return {
       result: true
-    };
-
+    }
   }
 };
 

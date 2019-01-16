@@ -6,19 +6,20 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "@types/node": "^10.12.3",
-    "bcrypt": "^3.0.2",
+    "@types/node": "^10.12.18",
+    "bcrypt": "^3.0.3",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.0",
-    "facebook-chat-api": "^1.6.0",
+    "facebook-chat-api": "^1.6.1",
     "fb": "^2.0.0",
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.4",
     "oauth": "^0.9.10",
     "reflect-metadata": "^0.1.12",
-    "sequelize": "^4.41.1",
-    "typeorm": "^0.2.8"
+    "sequelize": "^4.42.0",
+    "typeorm": "^0.2.11"
   }
 }

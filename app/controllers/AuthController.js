@@ -15,7 +15,7 @@ let AuthController = {
     // check email and password match
     let result = await UserService.attemp(user);
 
-    res.send(result);
+    res.send(...result);
   },
 
   /**
@@ -30,10 +30,15 @@ let AuthController = {
     user.name = req.body.name;
     user.email = req.body.email;
     user.password = req.body.password;
+    user.repassword = req.body.repassword;
 
     // call function register in UserService
     let result = await UserService.register(user);
     res.send(result);
+  },
+
+  async logout(req, res) {
+    res.json({status: 'OK'});
   }
 };
 

@@ -1,6 +1,8 @@
-let Sequelize = require('sequelize'),
+const Sequelize = require('sequelize'),
   c = require('../config/db.config'),
   BaseAttibutes = require('../helpers/BaseAttibutes');
+
+const UserSpace = require('./UserSpace');
 
 let User = c.config.db.define('User', {
   // created, updated, deleted column.

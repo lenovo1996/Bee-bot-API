@@ -14,7 +14,7 @@ let UserInfoController = {
    * @returns {Promise<void>}
    */
   async get(req, res) {
-    let accessToken = req.query.access_token;
+    let accessToken = req.access_token;
 
     // get user information
     let user = UserModule.userInfo(await getUserByToken(accessToken));
@@ -22,7 +22,10 @@ let UserInfoController = {
     // get space list
     user.spaces = await SpaceService.getList(accessToken, user);
 
-    res.send(user);
+    res.send({
+      result: true,
+      user: user
+    });
   }
 };
 
