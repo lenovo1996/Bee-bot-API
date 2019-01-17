@@ -4,7 +4,8 @@ const {
   isModer,
   isMember,
   isLoggedIn,
-  getUserByToken
+  getUserByToken,
+  getRole
 } = require('../modules/permission');
 
 let SpaceService = require('../services/SpaceService');
@@ -12,6 +13,31 @@ let UserService = require('../services/UserService');
 let UserSpaceService = require('../services/UserSpaceService');
 
 let SpaceController = {
+
+  async getById(req, res) {
+    let accessToken = req.access_token;
+    let user = req.user;
+    let spaceId = req.params.spaceId;
+
+    // check user has in space
+    let userSpace = await UserSpaceService.getUserSpace(user.id, spaceId);
+
+    if (!userSpace) {
+      res.send({
+        result: false,
+        msg: "You dont have permission"
+      });
+      return false;
+    }
+
+    let space = await SpaceService.getOne(user.id, spaceId);
+
+    res.send({
+      result: true,
+      space: space
+    });
+  },
+
   /**
    * function get list space belongs user
    * @param req
@@ -284,6 +310,15 @@ let SpaceController = {
       res.send({
         result: false,
         msg: `Member not in space.`
+      });
+      return false;
+    }
+
+    let roleListCanAccess = getRole();
+    if (roleListCanAccess.indexOf(permission) === -1) {
+      res.send({
+        result: false,
+        msg: `Can not set permission. Please check again.`
       });
       return false;
     }

@@ -11,6 +11,8 @@ const roles = {
   'other': 0
 };
 
+const roleNumber = [0, 1, 2, 3];
+
 let permissions = {
   /**
    * function check Super Admin role of user in space
@@ -105,6 +107,10 @@ let permissions = {
         },
         raw: true
       });
+  },
+
+  getRole() {
+    return roleNumber;
   }
 };
 

@@ -35,4 +35,8 @@ Object.keys(SpaceController).forEach(funcName => {
   router[method]('/' + routeLink, [middleware, SpaceController[funcName]]);
 });
 
+
+// custom router
+router.get('/:spaceId', [middleware, SpaceController['getById']]);
+
 module.exports = router;
