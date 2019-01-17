@@ -88,7 +88,7 @@ let SpaceController = {
       return false;
     }
 
-    if (!await isSuperAdmin(accessToken, spaceId)) {
+    if (!await isAdmin(accessToken, spaceId)) {
       // return error message when don't have permission
       res.send({
         result: false,
@@ -115,7 +115,7 @@ let SpaceController = {
     let spaceId = req.body.id;
 
     // check permission
-    if (!await isSuperAdmin(accessToken, spaceId)) {
+    if (!await isAdmin(accessToken, spaceId)) {
       res.send({
         result: false,
         msg: `You dont have permission in this space!`
@@ -151,7 +151,7 @@ let SpaceController = {
     }
 
     // check permission
-    if (!await isSuperAdmin(accessToken, spaceId)) {
+    if (!await isAdmin(accessToken, spaceId)) {
       res.send({
         result: false,
         msg: `You dont have permission in this space!`
@@ -212,7 +212,7 @@ let SpaceController = {
     }
 
     // check permission
-    if (!await isSuperAdmin(accessToken, spaceId)) {
+    if (!await isAdmin(accessToken, spaceId)) {
       res.send({
         result: false,
         msg: `You dont have permission in this space!`
@@ -270,7 +270,7 @@ let SpaceController = {
     }
 
     // check permission
-    if (!await isSuperAdmin(accessToken, spaceId)) {
+    if (!await isAdmin(accessToken, spaceId)) {
       res.send({
         result: false,
         msg: `You dont have permission in this space!`

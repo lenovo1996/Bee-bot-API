@@ -55,7 +55,7 @@ let SpaceService = {
     // create space and userSpace record
     await Space.create(data).then(async (space) => {
       newSpaceId = space.id;
-      await UserSpaceService.createUserSpace(userId, newSpaceId, 4);
+      await UserSpaceService.createUserSpace(userId, newSpaceId, 3);
     });
 
     // return space record
