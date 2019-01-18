@@ -1,6 +1,6 @@
-const {UserSpace} = require('../models');
+const {Account} = require('../models');
 
-let UserSpaceService = {
+let AccountService = {
   /**
    * function create record to table UserSpace
    * @param userId
@@ -8,14 +8,8 @@ let UserSpaceService = {
    * @param role
    * @returns {Promise<*>}
    */
-  async createUserSpace(userId, newSpaceId, role) {
-    return await UserSpace.create({
-      createdBy: userId,
-      updatedBy: userId,
-      userId: userId,
-      spaceId: newSpaceId,
-      role: role
-    });
+  async createAccount(data) {
+    return await Account.create(data);
   },
 
   /**
@@ -35,4 +29,4 @@ let UserSpaceService = {
 
 };
 
-module.exports = UserSpaceService;
+module.exports = AccountService;

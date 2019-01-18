@@ -11,6 +11,9 @@ const {
 let SpaceService = require('../services/SpaceService');
 let UserService = require('../services/UserService');
 let UserSpaceService = require('../services/UserSpaceService');
+let AccountService = require('../services/AccountService');
+
+const {FB} = require('fb');
 
 let SpaceController = {
 
@@ -330,6 +333,60 @@ let SpaceController = {
       msg: `Set permission success`
     });
     return false;
+  },
+
+  /**
+   * function save access token of fanpage for Space
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  async saveAccount(req, res) {
+    let userData = req.user;
+    let accessToken = req.access_token;
+    let fanpageAccessToken = req.body.fanpage_access_token;
+    let spaceId = req.params.spaceId;
+
+    // // check permission
+    // if (!await isAdmin(accessToken, spaceId)) {
+    //   res.send({
+    //     result: false,
+    //     msg: `You dont have permission in this space!`
+    //   });
+    //   return false;
+    // }
+
+    if (!fanpageAccessToken || !spaceId) {
+      res.send({
+        result: false,
+        msg: `Missing params`
+      });
+    }
+
+    // get info fanpage
+    let fanpageInfo = await FB.api('/me', {fields: 'id,name', access_token: fanpageAccessToken});
+    let fanpageAvatarData = await FB.api(`${fanpageInfo.id}/picture`, {
+      width: '9999',
+      redirect: 'false',
+      access_token: fanpageAccessToken
+    });
+
+    let fanpageName = fanpageInfo.name;
+    let fanpageId = fanpageInfo.id;
+    let fanpageAvatar = fanpageAvatarData.data.url;
+
+    let initData = {
+      createdBy: userData.id,
+      updatedBy: userData.id,
+      spaceId: spaceId,
+      name: fanpageName,
+      fanpageId: fanpageId,
+      avatar: fanpageAvatar,
+      accessToken: fanpageAccessToken,
+    };
+
+    let account = await AccountService.createAccount(initData);
+    res.send(account);
   }
 };
 

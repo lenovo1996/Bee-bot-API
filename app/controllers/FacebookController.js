@@ -17,79 +17,18 @@ let FacebookController = {
    * @param res
    * @returns {Promise<void>}
    */
-  async getAuth(req, res) {
-    let redirectUri = `${facebookConf.rootUrl + facebookConf.redirectUri}`;
-    let params = {
-      'redirect_uri': redirectUri,
-      'scope': 'manage_pages,publish_pages'
-    };
-
-    let endpointUrl = oauth2.getAuthorizeUrl(params);
-
-    res.send({
-      endpoint: endpointUrl
-    });
-  },
-
-  /**
-   * function callback (get access token, and subscribe_pages)
-   * @param req
-   * @param res
-   * @returns {Promise<void>}
-   */
-  async getCallback(req, res) {
-    if (req.error_reason) {
-      res.send({
-        result: false,
-        msg: req.error_reason
+  async getLongLiveAccessToken(req, res) {
+    FB.api(
+      'oauth/access_token',
+      {
+        client_id: facebookConf.appId,
+        client_secret: facebookConf.appSecret,
+        grant_type: 'fb_exchange_token',
+        fb_exchange_token: req.query.access_token
+      }, function (response) {
+        res.send(response);
       });
-      return false;
-    }
-
-    if (req.query.code) {
-      let loginCode = req.query.code;
-      let redirectUri = `${facebookConf.rootUrl + facebookConf.redirectUri}`;
-
-      oauth2.getOAuthAccessToken(
-        loginCode,
-        {
-          grant_type: 'authorization_code',
-          redirect_uri: redirectUri
-        },
-        function (err, accessToken, refreshToken, params) {
-          if (err) {
-            res.send({
-              result: false,
-              msg: err
-            });
-            return false;
-          }
-
-          // call facebook graph (get list fanpage facebook)
-          FB.api(
-            'me/accounts',
-            {
-              limit: 500,
-              access_token: accessToken
-            }, function (response) {
-              res.send({
-                result: true,
-                accessToken: accessToken,
-                data: response
-              });
-            });
-          return true;
-        }
-      );
-    } else {
-      res.send({
-        result: false,
-        msg: 'Something when wrong'
-      });
-      return false;
-    }
-  },
-
+  }
 };
 
 module.exports = FacebookController;
