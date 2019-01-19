@@ -1,8 +1,8 @@
 const env = {
-    database: 'app',
-    username: 'admin',
-    password: '123456',
-    host: '172.18.0.2',
+    database: 'bee',
+    username: 'root',
+    password: 'Lephi966.',
+    host: 'localhost',
     dialect: 'mysql',
     pool: {
         max: 5,
