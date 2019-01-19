@@ -1,4 +1,4 @@
-const {Space, UserSpace, User} = require('../models');
+const {Space, UserSpace, User, Account} = require('../models');
 const UserSpaceService = require('./UserSpaceService');
 const Sequelize = require('sequelize');
 
@@ -97,6 +97,10 @@ let SpaceService = {
    */
   includeOptions(userId) {
     return [{
+      model: Account,
+      as: 'Account',
+      attributes: ['id', 'name', 'avatar', 'fanpage_id']
+    }, {
       model: UserSpace,
       as: 'Member',
       attributes: ['role'],

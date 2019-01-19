@@ -37,6 +37,7 @@ Object.keys(SpaceController).forEach(funcName => {
 
 
 // custom router
-router.get('/:spaceId', [middleware, SpaceController['getById']]);
+router.get('/:spaceId', [middleware, SpaceController.getById]);
+router.post('/:spaceId/account', [middleware, SpaceController.saveAccount]);
 
 module.exports = router;

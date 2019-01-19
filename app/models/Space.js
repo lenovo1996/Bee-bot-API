@@ -3,6 +3,7 @@ let Sequelize = require('sequelize'),
   BaseAttibutes = require('../helpers/BaseAttibutes');
 
 const UserSpace = require('./UserSpace');
+const Account = require('./Account');
 
 let Space = c.config.db.define('Space', {
   // created, updated, deleted column.
@@ -21,6 +22,7 @@ let Space = c.config.db.define('Space', {
 
 // set relation for get Member role in UserSpace
 Space.hasOne(UserSpace, {as: 'Member', foreignKey: 'space_id', targetKey: 'id'});
+Space.hasOne(Account, {as: 'Account', foreignKey: 'space_id', targetKey: 'id'});
 Space.hasMany(UserSpace, {as: 'Members', foreignKey: 'space_id', targetKey: 'id'});
 
 module.exports = Space;
