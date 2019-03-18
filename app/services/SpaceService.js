@@ -1,6 +1,5 @@
 const {Space, UserSpace, User, Account} = require('../models');
 const UserSpaceService = require('./UserSpaceService');
-const Sequelize = require('sequelize');
 
 let SpaceService = {
   /**

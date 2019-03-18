@@ -1,33 +1,33 @@
-let Sequelize = require('sequelize'),
-  c = require('../config/db.config'),
-  BaseAttibutes = require('../helpers/BaseAttibutes');
+const BaseAttibutes = require('../helpers/BaseAttibutes');
 
-const User = require('./User');
+module.exports = (sequelize, DataTypes) => {
+	let UserSpace = sequelize.define('UserSpace', {
+		// created, updated, deleted column.
+		...BaseAttibutes,
 
-let UserSpace = c.config.db.define('UserSpace', {
-  // created, updated, deleted column.
-  ...BaseAttibutes,
+		// list columns in table
+		userId: {
+			type: DataTypes.INTEGER,
+			field: 'user_id'
+		},
+		spaceId: {
+			type: DataTypes.INTEGER,
+			field: 'space_id'
+		},
+		role: {
+			type: DataTypes.INTEGER,
+			field: 'role'
+		}
+	}, {
+		timestamps: true,
+		freezeTableName: true,
+		paranoid: true,
+	});
 
-  // list columns in table
-  userId: {
-    type: Sequelize.INTEGER,
-    field: 'user_id'
-  },
-  spaceId: {
-    type: Sequelize.INTEGER,
-    field: 'space_id'
-  },
-  role: {
-    type: Sequelize.INTEGER,
-    field: 'role'
-  }
-}, {
-  timestamps: true,
-  freezeTableName: true,
-  paranoid: true,
-});
 
-// relationship to table User
-UserSpace.belongsTo(User, {as: 'user'});
+	UserSpace.associate = function (models) {
+		UserSpace.belongsTo(models.User, {as: 'user'});
+	};
 
-module.exports = UserSpace;
+	return UserSpace;
+};

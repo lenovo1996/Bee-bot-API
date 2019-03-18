@@ -1,9 +1,5 @@
 const {
-  isSuperAdmin,
   isAdmin,
-  isModer,
-  isMember,
-  isLoggedIn,
   getUserByToken,
   getRole
 } = require('../modules/permission');
@@ -18,7 +14,6 @@ const {FB} = require('fb');
 let SpaceController = {
 
   async getById(req, res) {
-    let accessToken = req.access_token;
     let user = req.user;
     let spaceId = req.params.spaceId;
 

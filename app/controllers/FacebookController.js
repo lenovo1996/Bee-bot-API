@@ -1,4 +1,4 @@
-const facebookConf = require('../config/facebook');
+const facebookConf = require('../../config/facebook');
 const {FB, FacebookApiException} = require('fb');
 let OAuth2 = require('oauth').OAuth2;
 let oauth2 = new OAuth2(
