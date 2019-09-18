@@ -1,5 +1,5 @@
 const {User} = require('../models'),
-	bcrypt = require('bcrypt'),
+	bcrypt = require('bcryptjs'),
 	{randomString} = require('../helpers/common'),
 	SpaceService = require('./SpaceService');
 

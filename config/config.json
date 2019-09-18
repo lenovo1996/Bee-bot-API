@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "123456",
+    "password": "secret",
     "database": "bee",
-    "host": "172.17.0.4",
+    "host": "172.18.0.2",
     "dialect": "mysql"
   },
   "test": {

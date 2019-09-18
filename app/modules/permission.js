@@ -109,7 +109,7 @@ let permissions = {
       });
   },
 
-  getRole() {
+  getRoleList() {
     return roleNumber;
   }
 };
