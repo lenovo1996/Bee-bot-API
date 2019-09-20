@@ -15,6 +15,10 @@ module.exports = {
 				type: Sequelize.INTEGER,
 				field: 'space_id'
 			},
+			status: {
+				type: Sequelize.INTEGER,
+				field: 'status'
+			},
 			type: {
 				type: Sequelize.STRING,
 				field: 'type'

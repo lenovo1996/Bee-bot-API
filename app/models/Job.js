@@ -39,9 +39,9 @@ module.exports = (sequelize, DataTypes) => {
 		freezeTableName: true,
 		paranoid: true,
 	});
-	
+
 	Job.associate = function (models) {
-		Job.belongsTo(models.Space, {as: 'Space'});
+		Job.belongsTo(models.Space, {as: 'Space', foreignKey: 'space_id', targetKey: 'id'});
 	};
 	
 	return Job;

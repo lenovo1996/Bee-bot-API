@@ -11,34 +11,20 @@ module.exports = {
 				type: Sequelize.INTEGER
 			},
 			// list columns in table
-			spaceId: {
-				type: Sequelize.INTEGER,
-				field: 'space_id'
-			},
-			type: {
-				type: Sequelize.STRING,
-				field: 'type'
-			},
-			source: {
-				type: Sequelize.STRING,
-				field: 'source'
-			},
-			keywords: {
-				type: Sequelize.STRING,
-				field: 'keywords'
-			},
-			changePriceType: {
-				type: Sequelize.STRING,
-				field: 'change_price_type'
-			},
-			changePrice: {
-				type: Sequelize.STRING,
-				field: 'change_price'
-			},
-			replaceText: {
-				type: Sequelize.JSON,
-				field: 'replace_text'
-			},
+            // list columns in table
+            spaceId: {
+                type: Sequelize.INTEGER,
+                field: 'space_id'
+            },
+            // list columns in table
+            tagId: {
+                type: Sequelize.INTEGER,
+                field: 'tag_id'
+            },
+            name: {
+                type: Sequelize.STRING,
+                field: 'name'
+            },
 			// created, updated, deleted column.
 			...BaseAttibutes,
 		});

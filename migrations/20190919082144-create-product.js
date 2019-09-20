@@ -38,7 +38,7 @@ module.exports = {
             price: {
                 type: Sequelize.INTEGER,
                 field: 'price',
-                allowNull: false
+                allowNull: true
             },
             description: {
                 type: Sequelize.STRING,
@@ -52,17 +52,17 @@ module.exports = {
                 type: Sequelize.JSON,
                 field: 'tags'
             },
+            variants: {
+                type: Sequelize.JSON,
+                field: 'variants'
+            },
             images: {
                 type: Sequelize.JSON,
                 field: 'images'
             },
-            attributes: {
+            options: {
                 type: Sequelize.JSON,
-                field: 'attributes'
-            },
-            defaultAttributes: {
-                type: Sequelize.JSON,
-                field: 'default_attributes'
+                field: 'options'
             },
             // created, updated, deleted column.
             ...BaseAttibutes,

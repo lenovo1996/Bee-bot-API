@@ -3,9 +3,15 @@ let fs = require('fs');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
-var cors = require('cors');
+let cors = require('cors');
 
 let app = express();
+
+let JobSchedule = require('./app/JobSchedule');
+
+//
+JobSchedule.start();
+//
 
 app.use(cors());
 app.use(logger('dev'));
